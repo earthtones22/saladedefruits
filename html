@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe Salade de Fruits - French Bistro</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Belanosima:wght@400;600&family=Beth+Ellen&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Map Icon (Optional) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* --- Basic Reset & Fonts --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Belanosima', sans-serif; font-weight: 400; line-height: 1.6; color: #333; background-color: #fdfaf6; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- Font Definitions --- */
+        h1, h2, h3, .cafe-name h1 { font-family: 'Beth Ellen', cursive; font-weight: 400; }
+        .item-name, .tab-link, .reserve-button, .main-nav a { font-family: 'Belanosima', sans-serif; }
+        .item-name { font-weight: 600; font-size: 1.1rem; }
+        .tab-link { font-weight: 600; font-size: 1.2rem; }
+        .reserve-button { font-weight: 600; font-size: 0.95rem; }
+        .main-nav a { font-weight: 400; font-size: 0.95rem; }
+
+        /* --- Header --- */
+        .site-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background-color: rgba(255, 255, 255, 0.9); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 100%; }
+        .main-nav ul { list-style: none; display: flex; }
+        .main-nav li { margin-right: 25px; }
+        .main-nav a { text-decoration: none; color: #555; transition: color 0.3s ease; cursor: pointer; }
+        .main-nav a:hover { color: #c8a07d; }
+        .cafe-name h1 { margin: 0; font-size: 2.5rem; color: #333; line-height: 1.2; }
+        .cafe-name h1 a { text-decoration: none; color: inherit; cursor: pointer;}
+        .reserve-button { display: inline-block; background-color: #c8a07d; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease; }
+        .reserve-button:hover { background-color: #b38a65; }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            height: 75vh;
+            background: url('https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/62d6dee53062555f66a0c5a5_AF1QipNQKZ-tiu7q4MblLome6Ih9WMQbmdKVCV6Lq-Hd%3Ds871-k-no.jpeg?v=1745175423271') no-repeat center center/cover;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); }
+        .hero-content { position: relative; z-index: 2; }
+
+        /* --- General Section Styling --- */
+        .content-section, .find-us-section { display: none; padding: 80px 0; }
+        .homepage-section, .hero-section { display: block; }
+        .homepage-section { padding: 60px 0; }
+        .find-us-section { display: block; } /* Always visible */
+        section h2 { text-align: center; margin-bottom: 50px; font-size: 3.2rem; color: #444; line-height: 1.3; }
+
+        /* --- Menu Section Styles --- */
+        .menu-tabs { text-align: center; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .tab-link { background: none; border: none; padding: 10px 20px; cursor: pointer; margin: 0 10px; color: #888; transition: color 0.3s ease, border-bottom 0.3s ease; border-bottom: 3px solid transparent; }
+        .tab-link:hover { color: #555; }
+        .tab-link.active { color: #c8a07d; border-bottom: 3px solid #c8a07d; }
+        .menu-tab-content { display: none; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .menu-category { font-size: 2.4rem; margin-top: 40px; margin-bottom: 30px; color: #5a4e46; text-align: center; line-height: 1.3; }
+        .menu-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px 30px; }
+        .menu-item { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 15px; }
+        .item-details { margin-right: 15px; }
+        .item-name { display: block; margin-bottom: 5px; color: #333; line-height: 1.4; }
+        .item-description { font-size: 0.9rem; color: #666; line-height: 1.4; margin-bottom: 3px; }
+        .menu-item .item-details p.item-description { margin-left: 15px; }
+        .item-price { font-weight: 600; color: #444; font-size: 1.05rem; white-space: nowrap; font-family: 'Belanosima', sans-serif; }
+
+        /* --- Gallery Section Styles --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+        .gallery-grid img { width: 100%; height: auto; display: block; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
+        .gallery-grid img:hover { transform: scale(1.03); }
+
+        /* --- About Section Styles --- */
+        .about-section p { max-width: 700px; margin: 15px auto 25px auto; text-align: center; line-height: 1.7; }
+
+        /* --- Homepage Specific Styles --- */
+        .homepage-section:nth-of-type(even) { background-color: #fff; }
+        .homepage-section:nth-of-type(odd) { background-color: #fdfaf6; }
+        .homepage-content-block { display: flex; flex-wrap: wrap; align-items: center; gap: 50px; }
+        .text-column, .image-column { flex: 1; min-width: 300px; }
+        .image-column img { width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.15); border: 10px solid white; outline: 1px solid #ccc; position: relative; }
+        .section-title-styled { font-size: 2.8rem; color: #5a4e46; margin-bottom: 20px; border: 2px solid #c8a07d; display: block; padding: 8px 25px; line-height: 1.3; text-align: center; margin-left: auto; margin-right: auto; width: fit-content; }
+        .text-column { text-align: center; }
+        .text-column p { font-size: 1.1rem; line-height: 1.7; color: #444; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .inline-logo { height: 40px; width: auto; margin-top: 15px; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto; }
+
+        /* --- Find Us / Contact Section --- */
+        .find-us-section { background-color: #f1eadd; }
+        .find-us-section h2 { color: #444; }
+        .contact-info-map-container { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; justify-content: center; }
+        .contact-details, .map-container { flex: 1; min-width: 300px; max-width: 450px; }
+        .contact-details { text-align: left; }
+        .contact-details p { margin-bottom: 10px; line-height: 1.5; color: #333; }
+        .contact-details strong { color: #000; font-weight: 600; }
+        .map-container { text-align: center; }
+        .map-container a { display: inline-block; position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.15); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .map-container a:hover { transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        .map-image { display: block; max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #ddd; }
+        .map-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(80, 60, 40, 0.5); color: white; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; font-weight: 600; font-family: 'Belanosima', sans-serif; opacity: 0; transition: opacity 0.3s ease; border-radius: 8px; pointer-events: none; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        .map-container a:hover .map-overlay { opacity: 1; }
+        .map-overlay i { margin-right: 8px; }
+
+        /* --- Popup Modal Styles --- */
+        .popup-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0; /* Start hidden for transition */
+            transition: opacity 0.5s ease-out;
+        }
+        .popup-backdrop.visible { /* Style for when backdrop is shown */
+             display: flex;
+             opacity: 1;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 550px;
+            width: 95%;
+            position: relative;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+            display: block;
+            opacity: 0; /* Start hidden */
+            transform: translateY(20px) scale(0.98); /* Start slightly downscaled */
+            transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s; /* Delay content animation */
+        }
+        .popup-backdrop.visible .popup-content { /* Animate in when backdrop is visible */
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .popup-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 25px auto;
+            border-radius: 4px;
+        }
+        .close-popup-btn {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            background: none;
+            border: none;
+            line-height: 1;
+            padding: 0;
+        }
+        .close-popup-btn:hover { color: #333; }
+        .popup-reserve-button { display: inline-block; margin-top: 15px; }
+
+
+        /* --- Footer --- */
+        .site-footer { text-align: center; padding: 25px 20px; margin-top: 0; background-color: #f1eadd; color: #666; font-size: 0.9rem; }
+
+        /* --- Scroll Animation --- */
+        .scroll-animate { opacity: 0; transform: translateY(40px) scale(0.95); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .scroll-animate.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 900px) {
+            .site-header { flex-direction: column; padding: 10px 20px; }
+            .cafe-name { order: -1; margin-bottom: 10px; text-align: center; }
+            .cafe-name h1 { font-size: 2rem; }
+            .main-nav ul { justify-content: center; padding: 10px 0; width: 100%; flex-wrap: wrap; }
+            .main-nav li { margin: 5px 10px; }
+            .reserve-button-container { margin-top: 10px; width: 100%; text-align: center; }
+            .hero-section { height: 60vh; }
+            section h2 { font-size: 2.5rem; margin-bottom: 40px; }
+            .menu-category { font-size: 2rem; }
+        }
+        @media (max-width: 768px) {
+            section, .content-section, .find-us-section { padding: 60px 0; }
+            .hero-section { height: 50vh; }
+            .menu-items { grid-template-columns: 1fr; gap: 30px 20px; }
+            .gallery-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+            section h2 { font-size: 2.2rem; }
+            .tab-link { font-size: 1.1rem; margin: 0 5px; padding: 8px 12px; }
+            .menu-category { font-size: 1.8rem; }
+            .homepage-content-block { flex-direction: column; gap: 30px; }
+            .homepage-section:nth-of-type(3) .homepage-content-block { flex-direction: column; }
+            .section-title-styled { font-size: 2.2rem; }
+            .contact-info-map-container { flex-direction: column; align-items: center; }
+            .contact-details { text-align: center; }
+        }
+        @media (max-width: 480px) {
+             .hero-section { height: 45vh; }
+            .main-nav li { margin: 3px 8px; }
+            .cafe-name h1 { font-size: 1.6rem; /* Title size adjusted */ }
+            .reserve-button { padding: 8px 15px; font-size: 0.9rem; }
+            section h2 { font-size: 2rem; }
+            .menu-category { font-size: 1.6rem; }
+            .item-name { font-size: 1rem; }
+            .item-price { font-size: 1rem; }
+            .section-title-styled { font-size: 1.9rem; padding: 6px 18px; }
+            .text-column p { font-size: 1rem; }
+            .inline-logo { height: 30px; }
+            .popup-content { padding: 20px; } /* Reduce padding on small screens */
+            .close-popup-btn { font-size: 1.8rem; top: 5px; right: 8px;}
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <nav class="main-nav">
+             <ul>
+                <li><a onclick="showSection('menu-section')">Menu</a></li>
+                <li><a onclick="showSection('gallery-section')">Gallery</a></li>
+                <li><a onclick="showSection('about-section')">About</a></li>
+                <li><a href="#contact-section">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="cafe-name">
+            <h1><a onclick="showSection('home')">Cafe Salade de Fruits</a></h1>
+        </div>
+        <div class="reserve-button-container">
+            <a href="https://www.opentable.com/" target="_blank" class="reserve-button">Reserve</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section (Visible on Home) -->
+         <section id="hero" class="hero-section scroll-animate" data-section-name="home">
+            <div class="hero-content"></div>
+        </section>
+
+        <!-- Homepage Section 1 (Visible on Home) -->
+        <section class="homepage-section scroll-animate" data-section-name="home">
+            <div class="container homepage-content-block">
+                <div class="text-column">
+                    <h2 class="section-title-styled">Taste of France</h2>
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/logo.avif?v=1745329524050" alt="Cafe logo small" class="inline-logo">
+                    <p>At Cafe Salade de Fruits, we proudly offer a wide selection of dishes that's rooted in classic French but affordable for all. Over the seasons, the menu evolves to highlight different local products.</p>
+                </div>
+                <div class="image-column">
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/299973139_477909521011073_3392917016193790348_n.jpg?v=1745329461974" alt="Duck confit dish">
+                </div>
+            </div>
+        </section>
+
+        <!-- Homepage Section 2 (Visible on Home, text left, image right) -->
+        <section class="homepage-section scroll-animate" data-section-name="home">
+             <div class="container homepage-content-block">
+                 <div class="text-column">
+                    <h2 class="section-title-styled">Cafe Salade de Fruits</h2>
+                     <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/logo.avif?v=1745329524050" alt="Cafe logo small" class="inline-logo">
+                    <p>Cafe Salade de Fruits has carved a special place in the hearts of Vancouverites thanks to its unique Parisian atmosphere, exceptional customer service and excellent food.</p>
+                </div>
+                 <div class="image-column">
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/53261436-0.webp?v=1745329626509" alt="Cafe interior ambiance">
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section (Hidden by default) -->
+        <section id="menu-section" class="content-section">
+             <div class="container">
+                <h2>Our Menu</h2>
+                <div class="menu-tabs">
+                    <button class="tab-link active" onclick="openMenuTab(event, 'food')">Food</button>
+                    <button class="tab-link" onclick="openMenuTab(event, 'drinks')">Drinks</button>
+                </div>
+                <div id="food" class="menu-tab-content" style="display: block;">
+                    <!-- Food Menu Items Here (Collapsed for Brevity) -->
+                     <h3 class="menu-category scroll-animate">Entree</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Mix Green Organic Salad</span> <p class="item-description">Salad with Balsamic/olive oil and honey</p> </div> <span class="item-price">$10.00</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Daily Soup</span> <p class="item-description">Ask your server about daily special</p> </div> <span class="item-price">$12.00</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Rillette (Country Side Duck Pate)</span> <p class="item-description">with French gerkins</p> </div> <span class="item-price">$17.00</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Deep Fried Calamari with Yogurt sauce</span> <p class="item-description">cucumber, garlic, lemon, onions, olive</p> </div> <span class="item-price">$18.00</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Garlic Frog Legs (Gluten free)</span> <p class="item-description">Garlic butter, lemon, fresh parsley</p> </div> <span class="item-price">$19.00</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Lobster Avocado Salad</span> <p class="item-description">lobster, avocado, and salad dressing</p> </div> <span class="item-price">$24.00</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Terrine de Foie Gras (Cold)</span> </div> <span class="item-price">$24.00</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Grilled Romaine Salad</span> <p class="item-description">Croutons and salad dressing</p> </div> <span class="item-price">$14</span> </div> </div>
+                     <h3 class="menu-category scroll-animate">Main Courses</h3> <p style="text-align: center; margin-bottom: 20px; color: #555;">All main courses served with 2 of the following: scallop potatoes, risotto, fries or vegetables</p> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Duck Confit Leg</span> <p class="item-description">Regular / Large</p> </div> <span class="item-price">$28 / $38</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Duck Magret with black currant sauce</span> </div> <span class="item-price">$40</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Rack of Lamb with honey, rosemary and mint sauce</span> </div> <span class="item-price">$50</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Chicken Cordon Bleu</span> </div> <span class="item-price">$40</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Halibut with Pesto topping and 2 scallops</span> </div> <span class="item-price">$46</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Daily Fish</span> <p class="item-description">Ask server for details</p> </div> <span class="item-price">$35</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Tiger Prawns</span> </div> <span class="item-price">$38</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Mussels with fries and/or salad</span> <p class="item-description">Regular (1 1/4 lbs.) / Large (2 lbs.)</p> </div> <span class="item-price">$28 / $36</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Mushroom ravioli pasta with truffle cream sauce</span> </div> <span class="item-price">$37</span> </div> </div>
+                     <h3 class="menu-category scroll-animate">Steaks</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Ribeye 12 oz.</span> </div> <span class="item-price">$46</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Beef Filet 8 oz.</span> </div> <span class="item-price">$49</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Beef Filet blue cheese</span> </div> <span class="item-price">$50</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Beef Filet foie gras</span> </div> <span class="item-price">$55</span> </div> </div>
+                     <h3 class="menu-category scroll-animate">Desserts</h3> <p style="text-align: center; margin-bottom: 20px; color: #555;">All Desserts $12</p> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Mousse au chocolat</span> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Sorbet aux fraises</span> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Creme Brulee</span> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Chocolate Cake</span> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Key Lime Tart</span> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Pear Tart with Almond Cream</span> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Baked Alaska</span> </div> <span class="item-price">$12</span> </div> </div>
+                     <h3 class="menu-category scroll-animate">Extras</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Prawn</span> <p class="item-description">(per prawn)</p> </div> <span class="item-price">$4</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Scallop</span> <p class="item-description">(per scallop)</p> </div> <span class="item-price">$6</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Lobster tail</span> <p class="item-description">(per tail)</p> </div> <span class="item-price">$24</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Foie Gras</span> </div> <span class="item-price">$24</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Extra bread</span> <p class="item-description">(per basket)</p> </div> <span class="item-price">$1.00</span> </div> </div>
+                </div>
+                 <div id="drinks" class="menu-tab-content">
+                     <!-- Drinks Menu Items Here (Collapsed for Brevity) -->
+                    <h3 class="menu-category scroll-animate">White Wine</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Vin maison/House White</span> <p class="item-description">BC - 5oz / 9oz / 500ml</p> </div> <span class="item-price">$12 / $19 / $33</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Lafleur Mallet (Sauternes)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$45</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Tableau noir/Blackboard White</span> <p class="item-description">FR - 5oz / 9oz / 500ml</p> </div> <span class="item-price">$14 / $21 / $37</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Vieille Ferme (Grenache blanc)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$49</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Château de la Gravelle (Muscadet)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$52</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Clos du Soleil (Sauvignon)</span> <p class="item-description">BC - 750ml</p> </div> <span class="item-price">$54</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Viré-Clessé (Chardonnay)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$72</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Touraire Chenonceaux (Sauvignon)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$78</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Trimbach (Riesling)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$82</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Vouvray (Chenin Blanc)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$84</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Menetou-Salon (Dom. Pellé)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$91</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Château-du-Coin (Muscadet)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$92</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Pouilly-Fuissé (Chardonnay)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$95</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Chablis (Chardonnay)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$119</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">White Wine Special from our Blackboard</span> <p class="item-description">Inquire with your server</p> </div> <span class="item-price">Inquire</span> </div> </div>
+                    <h3 class="menu-category scroll-animate">Red Wine</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Vin Maison/House Red</span> <p class="item-description">FR - 5oz / 9oz / 500ml</p> </div> <span class="item-price">$12 / $19 / $33</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Tableau noir/Blackboard Red</span> <p class="item-description">FR - 5oz / 9oz / 500ml</p> </div> <span class="item-price">$14 / $21 / $37</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Côte de Brouilly (Beaujolais Gamay)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$67</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Château D'Argadens (Merlot Blend)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$69</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Morgon (Gamay)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$72</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Saumur (Cabernet Franc)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$74</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Bourgogne (Pinot Noir)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$87</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Vaqueyras (Grenache blend)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$89</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Domaine Grosbois Chinon (Cab. Franc)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$90</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Menetou-Salon (Pinot Noir)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$94</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Domaine Raspail-AY (Gigondas)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$95</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Decoy (Cabernet Sauvignon)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$98</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Clos de l'Oratoire (Chateauneuf-du-Pape)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$138</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Côte de Beaune-Joseph Drouhin (Pinot Noir)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$158</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Luigi Einaudi (Barolo 2009)</span> <p class="item-description">IT - 750ml</p> </div> <span class="item-price">$310</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Red Wine Special from our Blackboard</span> <p class="item-description">Inquire with your server</p> </div> <span class="item-price">Inquire</span> </div> </div>
+                    <h3 class="menu-category scroll-animate">Rosé Wine</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Black board / Tableau noir</span> <p class="item-description">FR - 5oz / 9oz / 500ml</p> </div> <span class="item-price">$12 / $19 / $33</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Côtes du Rhones</span> <p class="item-description">FR - 5oz / 9oz / 750ml</p> </div> <span class="item-price">$14 / $21 / $49</span> </div> </div>
+                    <h3 class="menu-category scroll-animate">Sparkling Wine</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Cordo Negro (Cava)</span> <p class="item-description">SP - 4oz / 750ml</p> </div> <span class="item-price">$14 / $58</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Bernard Massard (Brut rosé)</span> <p class="item-description">FR - 4oz / 750ml</p> </div> <span class="item-price">$16 / $68</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Crémant de Bourgogne</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$81</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Champagne Taittinger (brut)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$105</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Champagne Charles Heidsieck (Brut)</span> <p class="item-description">FR - 750ml</p> </div> <span class="item-price">$118</span> </div> </div>
+                    <h3 class="menu-category scroll-animate">Cocktails</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Mimosa</span> <p class="item-description">OJ & sparkling wine - 2.5 oz</p> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Kir maison</span> <p class="item-description">Crème de cassis, white wine - 5.5 oz</p> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Kir Royal</span> <p class="item-description">Sparkling wine, Crème de cassis - 5.5 oz</p> </div> <span class="item-price">$14</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Léon</span> <p class="item-description">Cranberry, chambord, Vodka, lime - 1.5 oz</p> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Monaco Beer</span> <p class="item-description">strawberry syrup/7Up - 330 ml</p> </div> <span class="item-price">$8</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Campari Spritz</span> <p class="item-description">4 oz</p> </div> <span class="item-price">$14</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Dry Martini</span> <p class="item-description">2 oz</p> </div> <span class="item-price">$14</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Gin Tonic</span> <p class="item-description">1 oz</p> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Campari Soda</span> <p class="item-description">1 oz</p> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">St. Germain</span> <p class="item-description">Sparkling Wine Elderberry - 5.5 oz</p> </div> <span class="item-price">$16</span> </div> </div>
+                    <h3 class="menu-category scroll-animate">Liquor</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Vodka (Stoli)</span> <p class="item-description">1 oz</p> </div> <span class="item-price">$10</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Pastis (Ricard)</span> <p class="item-description">1 oz</p> </div> <span class="item-price">$10</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Grand Marnier</span> <p class="item-description">1 oz</p> </div> <span class="item-price">$10</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Cognac VSOP (Remi Martin)</span> <p class="item-description">1 oz</p> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Calvados de Normandie</span> <p class="item-description">1 oz</p> </div> <span class="item-price">$14</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Whisky (Glenlivet)</span> <p class="item-description">1 oz</p> </div> <span class="item-price">$12</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Bourbon (Jack Daniels)</span> <p class="item-description">1 oz</p> </div> <span class="item-price">$12</span> </div> </div>
+                    <h3 class="menu-category scroll-animate">Beer</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Zero beer (No Alcohol)</span> <p class="item-description">330 ml</p> </div> <span class="item-price">$6</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Local Beers (IPA)</span> <p class="item-description">355 ml</p> </div> <span class="item-price">$6.75</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Import beers</span> <p class="item-description">Stella Artois, Heineken, Kronenbourg - 330 ml</p> </div> <span class="item-price">$7.75</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Stiegl Grapefruit Radler</span> <p class="item-description">355 ml</p> </div> <span class="item-price">$6.50</span> </div> </div>
+                    <h3 class="menu-category scroll-animate">Sodas & Cold drinks</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Juice (Orange or Apple)</span> <p class="item-description">330 ml</p> </div> <span class="item-price">$4</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Pop:</span> <p class="item-description">Aranciata San Pellegrino (330 ml)</p> <p class="item-description">Limonata San Pellegrino (330 ml)</p> <p class="item-description">Coca-Cola (355 ml)</p> <p class="item-description">Soda Water (355 ml)</p> <p class="item-description">7Up (355 ml)</p> <p class="item-description">Tonic Water (355 ml)</p> <p class="item-description">Ginger Ale (355 ml)</p> </div> <span class="item-price">$4</span> </div> </div>
+                    <h3 class="menu-category scroll-animate">Sparkling Water</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">San Pellegrino</span> <p class="item-description">750 ml</p> </div> <span class="item-price">$9</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Perrier</span> <p class="item-description">375 ml</p> </div> <span class="item-price">$4</span> </div> </div>
+                    <h3 class="menu-category scroll-animate">Coffee special</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Brazilian</span> <p class="item-description">Tia maria/Cognac/Grand Marnier - 2 oz</p> </div> <span class="item-price">$14</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Irish</span> <p class="item-description">Irish Whiskey/cream - 1.5 oz</p> </div> <span class="item-price">$14</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Spanish</span> <p class="item-description">Tia maria/rum - 2 oz</p> </div> <span class="item-price">$14</span> </div> </div>
+                    <h3 class="menu-category scroll-animate">Coffee and hot drinks</h3> <div class="menu-items scroll-animate"> <div class="menu-item"> <div class="item-details"> <span class="item-name">Café régulier / Décaf régulier</span> <p class="item-description">Regular or Decaf Coffee</p> </div> <span class="item-price">$3</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Espresso</span> <p class="item-description">1 shot</p> </div> <span class="item-price">$3</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Americano</span> </div> <span class="item-price">$4</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Latte, Cappuccino or Macchiato</span> </div> <span class="item-price">$4.75</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Hot water with lemon & honey</span> </div> <span class="item-price">$4</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Hot Tea</span> <p class="item-description">Black - Green - Earl Grey</p> </div> <span class="item-price">$3.75</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Mint Tea</span> </div> <span class="item-price">$3.75</span> </div> <div class="menu-item"> <div class="item-details"> <span class="item-name">Camomille Tea</span> </div> <span class="item-price">$3.75</span> </div> </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section (Hidden by default) -->
+        <section id="gallery-section" class="content-section gallery-section">
+            <div class="container">
+                <h2 class="scroll-animate">Gallery</h2>
+                <div class="gallery-grid">
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/53261536-0.webp?v=1745329793328" alt="Restaurant food photo 1" class="scroll-animate">
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/53261538-0.webp?v=1745329794512" alt="Restaurant interior photo 1" class="scroll-animate">
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/53261531-0.webp?v=1745329796132" alt="Restaurant food photo 2" class="scroll-animate">
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/73876035-0.webp?v=1745329798040" alt="Restaurant ambiance photo" class="scroll-animate">
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/72711355-0.webp?v=1745329799134" alt="Dish detail" class="scroll-animate">
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/65472374-0.webp?v=1745329800299" alt="Restaurant exterior" class="scroll-animate">
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/53261532-0.webp?v=1745329944306" alt="Dish detail" class="scroll-animate">
+                    <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/62050606-0.webp?v=1745329945169" alt="Restaurant exterior" class="scroll-animate">
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section (Hidden by default) -->
+        <section id="about-section" class="content-section about-section">
+             <div class="container scroll-animate">
+                <h2>About Us</h2>
+                <p>Welcome to Cafe Salade de Fruits, nestled in the heart of the city, where we bring the timeless charm and authentic flavours of French bistro dining to your table. Our passion lies in crafting classic dishes using fresh, locally-sourced ingredients whenever possible.</p>
+                <p>Step into our warm, inviting atmosphere and let us transport you to the streets of Paris. Whether you're joining us for a casual lunch, a romantic dinner, weekend brunch, or simply a glass of wine, we strive to create unforgettable moments and delicious memories. Bon appétit!</p>
+                <p>We believe that dining is more than just eating; it's an experience. From the moment you walk in, our friendly staff aims to make you feel right at home, offering attentive service without being intrusive. Our chefs meticulously prepare each dish, focusing on quality and flavour, honouring traditional French techniques while embracing seasonal availability.</p>
+                <p>Join us and discover why Cafe Salade de Fruits has remained a beloved neighbourhood gem for years.</p>
+            </div>
+        </section>
+
+         <!-- ===== Welcome Popup Modal ===== -->
+         <div id="welcome-popup-backdrop" class="popup-backdrop">
+            <div id="welcome-popup" class="popup-content"> <!-- Removed scroll-animate here, let JS handle -->
+                <button class="close-popup-btn" onclick="closePopup()">×</button>
+                <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/Mothers%20Day!.jpg?v=1745332983297" alt="Welcome Promotion">
+                <a href="https://www.opentable.com/" target="_blank" class="reserve-button popup-reserve-button">Reserve</a>
+            </div>
+        </div>
+        <!-- ===== End Welcome Popup Modal ===== -->
+
+        <!-- Contact Section (Always visible at bottom) -->
+        <section id="contact-section" class="contact-section find-us-section scroll-animate">
+             <div class="container">
+                <h2>Find Us</h2>
+                <div class="contact-info-map-container">
+                    <div class="contact-details">
+                        <p><strong>Address:</strong> 1551 West 7th Avenue, Vancouver, BC V6J 1S1</p>
+                        <p><strong>Phone:</strong> (604) 714-5987</p>
+                        <p><strong>Hours:</strong><br>
+                           Mon - Fri: 11:30 AM - 2:30 PM / 5:00 PM - 10:00 PM<br>
+                           Sat & Sun: 10:00 AM - 3:00 PM / 5:00 PM - 10:00 PM</p>
+                    </div>
+                    <div class="map-container">
+                         <a href="https://www.google.com/maps/place/Caf%C3%A9+Salade+de+Fruits/@49.2655966,-123.1422583,17z/data=!3m1!4b1!4m5!3m4!1s0x548673c7dc2a6bbb:0x5b760e0fd9c9b03f!8m2!3d49.2655966!4d-123.1400696?shorturl=1" target="_blank" title="Open in Google Maps">
+                             <img src="https://cdn.glitch.global/45bcf52a-d0ce-471f-8388-0c20bb284382/Screenshot%202025-04-22%20093450.png?v=1745329670138" alt="Map showing cafe location" class="map-image">
+                             <span class="map-overlay"><i class="fas fa-map-marker-alt"></i> View Map</span>
+                        </a>
+                    </div>
+                </div>
+             </div>
+        </section>
+    </main>
+
+    <script>
+        // --- Popup Modal Logic ---
+        const popupBackdrop = document.getElementById('welcome-popup-backdrop');
+        const popupContent = document.getElementById('welcome-popup');
+
+        function showPopup() {
+            if (popupBackdrop) {
+                popupBackdrop.style.display = 'flex';
+                setTimeout(() => { // Start transition
+                    popupBackdrop.classList.add('visible');
+                }, 10); // Minimal delay
+            }
+        }
+
+        function closePopup() {
+             if (popupBackdrop) {
+                 popupBackdrop.classList.remove('visible');
+                 // Wait for animation to finish before hiding completely
+                 popupBackdrop.addEventListener('transitionend', function handleTransitionEnd(e) {
+                     if (e.propertyName === 'opacity' && !popupBackdrop.classList.contains('visible')) {
+                         popupBackdrop.style.display = 'none';
+                         popupBackdrop.removeEventListener('transitionend', handleTransitionEnd); // Clean up listener
+                     }
+                 });
+             }
+        }
+
+         if (popupBackdrop) {
+             popupBackdrop.addEventListener('click', function(event) {
+                 if (event.target === popupBackdrop) {
+                     closePopup();
+                 }
+             });
+         }
+
+        // --- Section Navigation (Show/Hide) ---
+        function showSection(sectionIdToShow) {
+            const sections = document.querySelectorAll('.hero-section, .homepage-section, .content-section');
+            let targetElement = null;
+
+            sections.forEach(section => {
+                section.style.display = 'none';
+
+                if (sectionIdToShow === 'home') {
+                    if (section.classList.contains('hero-section') || section.classList.contains('homepage-section')) {
+                        section.style.display = 'block';
+                         if (!targetElement) targetElement = section;
+                    }
+                } else if (section.id === sectionIdToShow) {
+                    section.style.display = 'block';
+                    targetElement = section;
+                }
+            });
+
+            const contactSection = document.getElementById('contact-section');
+            if (contactSection) contactSection.style.display = 'block';
+
+            if (targetElement) {
+                 const headerOffset = document.querySelector('.site-header')?.offsetHeight || 0;
+                 const offset = (sectionIdToShow === 'home' || targetElement.id === 'hero') ? 0 : headerOffset + 20;
+                 const elementPosition = targetElement.getBoundingClientRect().top;
+                 const offsetPosition = elementPosition + window.pageYOffset - offset;
+                 window.scrollTo({ top: Math.max(0, offsetPosition), behavior: 'smooth' });
+            }
+
+            if (sectionIdToShow === 'menu-section') {
+                 initializeMenuTabs();
+            }
+            handleScrollAnimation();
+        }
+
+        // --- Scroll Animation ---
+        const scrollElements = document.querySelectorAll(".scroll-animate");
+        const elementInView = (el, dividend = 1) => {
+          if (el.closest('.popup-backdrop') && window.getComputedStyle(el.closest('.popup-backdrop')).display === 'none') return false;
+          const elementTop = el.getBoundingClientRect().top;
+          const elementBottom = el.getBoundingClientRect().bottom;
+           return ( elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend && elementBottom >= 0 );
+        };
+        const displayScrollElement = (element) => { element.classList.add("visible"); };
+        const handleScrollAnimation = () => {
+             document.querySelectorAll(".scroll-animate").forEach((el) => {
+                 const parentSection = el.closest('section, .popup-content');
+                 let isDisplayed = window.getComputedStyle(el).display !== 'none';
+                 if (parentSection && window.getComputedStyle(parentSection).display === 'none') { isDisplayed = false; }
+                 if (isDisplayed && elementInView(el, 1.15)) { displayScrollElement(el); }
+             });
+         };
+        window.addEventListener("scroll", handleScrollAnimation);
+
+        // --- Menu Tabs ---
+        function openMenuTab(evt, tabName) {
+          let i, tabcontent, tablinks;
+          tabcontent = document.querySelectorAll("#menu-section .menu-tab-content");
+          for (i = 0; i < tabcontent.length; i++) { tabcontent[i].style.display = "none"; }
+          tablinks = document.querySelectorAll("#menu-section .tab-link");
+          for (i = 0; i < tablinks.length; i++) { tablinks[i].className = tablinks[i].className.replace(" active", ""); }
+          const currentTabContent = document.getElementById(tabName);
+          if(currentTabContent) { currentTabContent.style.display = "block"; }
+          if (evt && evt.currentTarget) { evt.currentTarget.className += " active"; }
+        }
+        function initializeMenuTabs() {
+             const menuTabs = document.querySelector('#menu-section .menu-tabs');
+             if (!menuTabs) return;
+             let activeTab = menuTabs.querySelector('.tab-link.active');
+             if (!activeTab) {
+                 const foodTabButton = menuTabs.querySelector('button[onclick*="\'food\'"]');
+                 if (foodTabButton) {
+                      foodTabButton.classList.add('active');
+                      activeTab = foodTabButton; // Update activeTab reference
+                 }
+             }
+              if (activeTab) {
+                    const onclickAttr = activeTab.getAttribute('onclick');
+                    const tabNameMatch = onclickAttr ? onclickAttr.match(/'([^']+)'/): null;
+                    if (tabNameMatch && tabNameMatch[1]) {
+                        openMenuTab(null, tabNameMatch[1]);
+                    }
+              }
+        }
+
+        // --- Footer Year ---
+        const yearSpan = document.getElementById('year');
+        if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+
+        // --- Smooth Scrolling for #contact-section link ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#contact-section') {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        const headerOffset = document.querySelector('.site-header')?.offsetHeight || 0;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset - 20;
+                        targetElement.style.display = 'block';
+                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    }
+                }
+            });
+        });
+
+         // Initialize the page view and popup on load
+         document.addEventListener('DOMContentLoaded', () => {
+             showSection('home');
+             showPopup(); // Show popup when DOM is ready
+         });
+
+    </script>
+
+</body>
+</html>
